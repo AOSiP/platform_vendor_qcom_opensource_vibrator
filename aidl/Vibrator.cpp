@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018-2020, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2018-2021, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -116,7 +116,15 @@ InputFFDevice::InputFFDevice()
                 fscanf(fp, "%u", &soc);
                 fclose(fp);
             }
-            if (soc == 400 || soc == 415) {
+            get_soc_info(&soc);
+            ALOGD("msm CPU SoC ID: %d\n", soc.msm_cpu);
+            switch (soc.msm_cpu) {
+            case MSM_CPU_LAHAINA:
+            case APQ_CPU_LAHAINA:
+            case MSM_CPU_SHIMA:
+            case MSM_CPU_SM8325:
+            case APQ_CPU_SM8325P:
+            case MSM_CPU_YUPIK:
                 mSupportExternalControl = true;
             } else {
                 mSupportExternalControl = false;
